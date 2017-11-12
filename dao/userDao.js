@@ -139,9 +139,11 @@ const userDao = {
         "use strict";
         let res = null;
 
-        let query = userModel.find({}, {
-            __v: 0
-        })
+        let query = userModel.find({})
+
+        // let query = userModel.find({}, {
+        //     __v: 0
+        // })
 
         await  query.exec(function (err, data) {
             if (Array.isArray(data) && data.length > 0) {
@@ -154,8 +156,7 @@ const userDao = {
 
         console.log(res)
         return res
-    }
-
+    },
 
 };
 

@@ -12,20 +12,8 @@ const session = require('koa-session-minimal')
 const MongoStore = require('koa-generic-session-mongo')
 const router = require('./routers/api')
 const app = new Koa()
-
-
+const server = require('http').Server(app.callback());
 // 配置session中间件
-/*
- 1 url mongodb connection url (full connection string. host, port, db, ssl options will be ignored)
- 2 db mongodb-native database object or database name (test by default)
- 3 collection collection name (sessions by default)
- 4 host db hostname (127.0.0.1 by default)
- 5 port db port (27017 by default)
- 6 ttl ttl in milliseconds (if set it overrides cookie maxAge)
- 7 user user for MongoDB
- 8 password password for MongoDB authentication
- 9 ssl use SSL to connect to MongoDB (false by default)
- */
 app.use(session({
     db:'murray',
     key: 'USER_SID',
@@ -42,13 +30,58 @@ app.use(cors())
 
 // 配置静态资源加载中间件
 app.use(koaStatic(
-    path.join(__dirname , './static')
+    path.join(__dirname , './test')
 ))
 
 // 初始化路由中间件
 app.use(router.routes()).use(router.allowedMethods())
 
 // 监听启动端口
-app.listen( 3003 )
 
-console.log(`the server is start at port 3003`)
+
+
+server.listen( 3003,()=>{
+    "use strict";
+
+    console.log(`the server is start at port 3003`)
+
+} )
+
+//
+
+//sockte.io服务
+
+const io = require('socket.io')(server);
+
+const userDao=require("./dao/userDao")
+const msgDao=require("./dao/msgDao")
+
+io.set('heartbeat interval', 60000);
+io.set('heartbeat timeout', 5000);
+
+io.on('connection', function (socket) {
+
+    socket.on('message', function (payload) {
+
+        console.log(payload)
+
+        msgDao.msgSave(socket, payload);
+
+    });
+
+    socket.on('disconnect', function () {
+        console.log("用户离开")
+
+    });
+
+    socket.on('user:online', function (data) {
+
+        // msgDao.sendOfflineMessage(socket, data.userId);
+
+        console.log('发送离线消息')
+
+    });
+});
+
+
+module.exports = server
