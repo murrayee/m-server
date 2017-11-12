@@ -54,6 +54,15 @@ io.on('connection', function(socket){
         io.emit('message', obj);
         console.log(obj.username+'说：'+obj.content);
     });
+    //监听用户发布聊天内容
+    socket.on('allmessage', function(obj){
+        //向所有客户端广播发布的消息
+        io.emit('allmessage', obj);
+        console.log(obj.username+'说：'+obj.content);
+    });
+
+
+
 
 });
 
