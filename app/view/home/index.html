@@ -1,0 +1,53 @@
+<script src="../../public/jquery.min.js"></script>
+
+<script src="../../public/jquery.cookie.js"></script>
+
+<script src="../../public/socket.io.js"></script>
+
+<input type="button" value="发送请求" id="send"/>
+
+
+<script>
+
+var socket = io();
+
+
+var csrftoken = $.cookie('csrfToken');
+
+function csrfSafeMethod(method) {
+  // these HTTP methods do not require CSRF protection
+  return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+  beforeSend: function(xhr, settings) {
+    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+      xhr.setRequestHeader('x-csrf-token', csrftoken);
+    }
+  }
+});
+
+
+
+$("#send").click(function(){
+
+
+  $.post('/say',function(){
+
+  });
+
+
+});
+
+
+
+
+socket.on('res',function(data){
+
+
+  alert(data);
+
+
+});
+
+
+</script>

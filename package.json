@@ -1,0 +1,56 @@
+{
+  "name": "m-server",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "start": "egg-scripts start --daemon",
+    "stop": "egg-scripts stop",
+    "dev": "egg-bin dev --port 9090",
+    "debug": "egg-bin debug",
+    "test": "npm run lint -- --fix && npm run test-local",
+    "test-local": "egg-bin test",
+    "cov": "egg-bin cov",
+    "lint": "eslint .",
+    "ci": "npm run lint && npm run cov",
+    "autod": "autod"
+  },
+  "dependencies": {
+    "egg": "^2.2.0",
+    "egg-mongoose": "^2.1.1",
+    "egg-redis": "^1.0.2",
+    "egg-scripts": "^2.1.1",
+    "egg-socket.io": "^4.0.6",
+    "egg-validate": "^1.0.0",
+    "lodash": "^4.17.5",
+    "moment": "^2.20.1",
+    "pinyin": "^2.8.3",
+    "uuid": "^3.2.1"
+  },
+  "devDependencies": {
+    "autod": "^3.0.1",
+    "autod-egg": "^1.0.0",
+    "axios": "^0.17.1",
+    "egg-bin": "^4.3.5",
+    "egg-ci": "^1.8.0",
+    "egg-cors": "^2.0.0",
+    "egg-mock": "^3.13.1",
+    "egg-view-nunjucks": "^2.1.6",
+    "eslint": "^4.11.0",
+    "eslint-config-egg": "^5.1.1",
+    "koa2-cors": "^2.0.5",
+    "webstorm-disable-index": "^1.2.0"
+  },
+  "engines": {
+    "node": ">=8.9.0"
+  },
+  "ci": {
+    "version": "8"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "",
+  "license": "MIT"
+}
