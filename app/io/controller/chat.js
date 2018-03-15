@@ -2,18 +2,17 @@
  * Created by bear on 2018/2/12.
  */
 module.exports = app => {
-    class Controller extends app.Controller {
+    class chatController extends app.Controller {
         async index() {
-
             this.ctx.socket.emit('res', 'asdasd');
         }
         async message() {
-
-            // modelMessage.sendPeerMessage(socket, payloads);
+            const params = this.ctx.args[0]
+            this.ctx.service.message.sendPeerMessage(params)
         }
         async online() {
             // modelMessage.sendOfflineMessage(socket, data.userId);
         }
     }
-    return Controller
+    return chatController
 };
