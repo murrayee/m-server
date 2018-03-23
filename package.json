@@ -21,9 +21,12 @@
     "egg-redis": "^1.0.2",
     "egg-scripts": "^2.1.1",
     "egg-socket.io": "^4.0.6",
+    "egg-static": "^2.1.0",
     "egg-validate": "^1.0.0",
+    "gm": "^1.9.2",
     "lodash": "^4.17.5",
     "moment": "^2.20.1",
+    "path": "^0.12.7",
     "pinyin": "^2.8.3",
     "uuid": "^3.2.1"
   },

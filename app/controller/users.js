@@ -12,6 +12,7 @@ class UserController extends Controller {
         }
         this.ctx.body = response;
         this.status = 200;
+
     }
 
     async authorize() {
@@ -28,7 +29,7 @@ class UserController extends Controller {
     }
 
     async register() {
-        let params = this.ctx.request.body
+        let params = this.ctx.request.body;
         let result = await this.service.users.register(params)
         let response = {success: false, message: ''}
         if (result && result._id) {
@@ -68,5 +69,6 @@ class UserController extends Controller {
 
 
 }
+
 module.exports = UserController;
 

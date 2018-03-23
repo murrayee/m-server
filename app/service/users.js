@@ -3,6 +3,7 @@
  */
 const Service = require('egg').Service;
 const pinyin = require('pinyin')
+
 class UsersService extends Service {
     async index() {
         let user = await this.ctx.model.Users.find({}).sort({firstLetter: 1})
@@ -26,9 +27,14 @@ class UsersService extends Service {
     }
 
     async register(params) {
+        const {baseDir} = this.ctx.app;
+        let avatarFileName=this.ctx.helper.createFileName()
+        await this.ctx.helper.getAvatar(baseDir,avatarFileName,params.username)
+
         let result = await this.ctx.model.Users.create({
             username: params.username,
             password: params.password,
+            avatar:`http://127.0.0.1:9090/public/avatar/${avatarFileName}.png`,
             firstLetter: this.getNameFirstLetter(params.username) || ''
         })
         return result
