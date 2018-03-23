@@ -6,11 +6,9 @@ const pinyin = require('pinyin')
 
 class UsersService extends Service {
     async index() {
-        let user = await this.ctx.model.Users.find({}).sort({firstLetter: 1})
-        let result = user
+        let result = await this.ctx.model.Users.find({}).sort({firstLetter: 1})
         return result
     }
-
     async authorize(params) {
         let result = await this.ctx.model.Users.find({
             username: params.username,
@@ -18,6 +16,7 @@ class UsersService extends Service {
         })
         return result
     }
+
     async profile(params) {
         let result = await this.ctx.model.Users.find({
             _id: params,
@@ -28,13 +27,13 @@ class UsersService extends Service {
 
     async register(params) {
         const {baseDir} = this.ctx.app;
-        let avatarFileName=this.ctx.helper.createFileName()
-        await this.ctx.helper.getAvatar(baseDir,avatarFileName,params.username)
+        let avatarFileName = this.ctx.helper.createFileName()
+        await this.ctx.helper.getAvatar(baseDir, avatarFileName, params.username.substring(0, 2))
 
         let result = await this.ctx.model.Users.create({
             username: params.username,
             password: params.password,
-            avatar:`http://127.0.0.1:9090/public/avatar/${avatarFileName}.png`,
+            avatar: `http://127.0.0.1:9090/public/avatar/${avatarFileName}.png`,
             firstLetter: this.getNameFirstLetter(params.username) || ''
         })
         return result
@@ -68,4 +67,5 @@ class UsersService extends Service {
         return result[0][0][0].toUpperCase();
     }
 }
+
 module.exports = UsersService;
