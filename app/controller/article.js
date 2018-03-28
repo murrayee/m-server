@@ -4,15 +4,13 @@
 const Controller = require('egg').Controller;
 
 class MessageController extends Controller {
+  async index() {
+    const result = await this.service.message.index();
 
-    async index() {
+    this.ctx.body = result;
 
-        let result=await this.service.message.index()
-
-        this.ctx.body = result;
-
-        this.status = 200;
-    }
+    this.status = 200;
+  }
 }
 
 module.exports = MessageController;
