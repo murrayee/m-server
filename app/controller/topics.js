@@ -18,20 +18,17 @@ class TopicsController extends Controller {
     this.status = 200;
   }
   async create() {
-    // let result=await this.service.users.index()
-    this.ctx.body = `body: ${JSON.stringify(this.ctx.request.body)} create`;
+    const parmas = this.ctx.request.body;
+    const result = await this.service.topics.create(parmas);
+    this.ctx.body = result;
     this.status = 200;
   }
   async update() {
-    this.ctx.body = {
-      id: `${this.ctx.params.id} update`,
-    };
+    this.ctx.body = { data: '更新' };
     this.status = 200;
   }
   async destroy() {
-    this.ctx.body = {
-      id: `${this.ctx.params.id} destroy`,
-    };
+    this.ctx.body = { data: '注销' };
     this.status = 200;
   }
 }
