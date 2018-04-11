@@ -11,10 +11,8 @@ class TopicsController extends Controller {
     this.status = 200;
   }
   async show() {
-    // let result=await this.service.users.index()
-    this.ctx.body = {
-      name: `${this.ctx.params.id} show`,
-    };
+    const result = await this.service.topics.show(this.ctx.params);
+    this.ctx.body = result;
     this.status = 200;
   }
   async create() {
@@ -24,7 +22,7 @@ class TopicsController extends Controller {
     this.status = 200;
   }
   async update() {
-    this.ctx.body = { data: '更新' };
+    this.ctx.body = this.ctx.request.body;
     this.status = 200;
   }
   async destroy() {

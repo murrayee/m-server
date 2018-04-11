@@ -5,6 +5,7 @@ module.exports = app => {
   const mongoose = app.mongoose;
   const articleSchema = new mongoose.Schema({
     user_id: { type: String },
+    topics_id: { type: String },
     author: { type: String },
     avatar: { type: String },
     create_time: { type: Number },
