@@ -2,7 +2,6 @@
 
 ##简介
 
-请事先配置好 redis  mongodb环境 ~ 不会的可以邮件~
 
 ## QuickStart
 
