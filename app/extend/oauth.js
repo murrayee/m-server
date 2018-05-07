@@ -13,10 +13,11 @@ module.exports = app => {
           clientSecret
         );
         if (!client) return false;
+
         return {
-          id: client.clientId,
-          redirectUris: client.redirectUri.split(','),
-          grants: client.grants.split(','),
+          id: client[0].clientId,
+          redirectUris: client[0].redirectUri.split(','),
+          grants: client[0].grants.split(','),
         };
       } catch (err) {
         return false;
@@ -25,7 +26,7 @@ module.exports = app => {
     async getUser(username, password) {
       try {
         console.log('getUser invoked.......');
-        const user = await this.ctx.service.user.params({username, password});
+        const user = await this.ctx.service.users.authorize({username, password});
         return user;
       } catch (err) {
         return false;

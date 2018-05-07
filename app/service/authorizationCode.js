@@ -15,7 +15,7 @@ module.exports = app => {
             return result;
         }
         async queryAuthorizationCode(params){
-            const result = await this.ctx.model.AuthorizationCode.find({params});
+            const result = await this.ctx.model.AuthorizationCode.find({...params});
             return result;
         }
         async delAuthorizationCode(code){

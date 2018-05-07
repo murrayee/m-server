@@ -9,7 +9,7 @@ module.exports = app => {
             if(clientSecret){
                 params={...params,clientSecret:clientSecret}
             }
-            const result = await this.ctx.model.Client.find({params});
+            const result = await this.ctx.model.Client.find({...params});
             return result;
         }
         async add (fields){
