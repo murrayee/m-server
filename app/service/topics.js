@@ -1,5 +1,4 @@
 /**
-import { create } from 'services/user';
  * Created by bear on 2017/11/16.
  */
 const Service = require('egg').Service;

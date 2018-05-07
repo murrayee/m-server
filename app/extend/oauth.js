@@ -1,6 +1,5 @@
 'use strict';
 
-// need implement some follow functions
 module.exports = app => {
   class Model {
     constructor(ctx) {
@@ -9,7 +8,7 @@ module.exports = app => {
     async getClient(clientId, clientSecret) {
       try {
         console.log('getClient invoked.......');
-        const client = await this.ctx.model.Client.getClient(
+        const client = await this.ctx.service.client.getClient(
           clientId,
           clientSecret
         );
@@ -26,7 +25,7 @@ module.exports = app => {
     async getUser(username, password) {
       try {
         console.log('getUser invoked.......');
-        const user = await this.ctx.model.User.getUser(username, password);
+        const user = await this.ctx.service.user.params({username, password});
         return user;
       } catch (err) {
         return false;
@@ -34,7 +33,7 @@ module.exports = app => {
     }
     async getAccessToken(bearerToken) {
       try {
-        const token = await this.ctx.model.AccessToken.getAccessToken(
+        const token = await this.ctx.service.accessToken.getAccessToken(
           bearerToken
         );
         if (!token) return;
@@ -55,8 +54,8 @@ module.exports = app => {
     }
     async saveToken(token, client, user) {
       try {
-        await this.ctx.model.AccessToken.saveAccessToken(token, client, user);
-        await this.ctx.model.RefreshToken.saveRefreshToken(token, client, user);
+        await this.ctx.service.accessToken.saveAccessToken(token, client, user);
+        await this.ctx.service.refreshToken.saveRefreshToken(token, client, user);
         return {
           accessToken: token.accessToken,
           accessTokenExpiresAt: token.accessTokenExpiresAt,
@@ -71,7 +70,7 @@ module.exports = app => {
     }
     async revokeToken(token) {
       try {
-        return await this.ctx.model.RefreshToken.delRefreshToken(token);
+        return await this.ctx.service.refreshToken.delRefreshToken(token);
       } catch (err) {
         return false;
       }
@@ -79,15 +78,13 @@ module.exports = app => {
     async getAuthorizationCode(authorizationCode) {
       try {
         console.log('authorizationCode: ', authorizationCode);
-        const authCode = await this.ctx.model.AuthorizationCode.queryAuthorizationCode(
+        const authCode = await this.ctx.service.authorizationCode.queryAuthorizationCode(
           {
             code: authorizationCode,
           }
         );
         if (!authCode) return;
-        const user = await this.ctx.model.User.queryUser({
-          id: authCode.userId,
-        });
+        const user = await this.ctx.service.user.profile(authCode.userId);
         if (!user) return;
         return {
           code: authCode.code,
@@ -103,7 +100,7 @@ module.exports = app => {
     }
     async saveAuthorizationCode(code, client, user) {
       try {
-        await this.ctx.model.AuthorizationCode.saveAuthorizationCode(
+        await this.ctx.service.authorizationCode.saveAuthorizationCode(
           code,
           client,
           user
@@ -122,7 +119,7 @@ module.exports = app => {
     }
     async revokeAuthorizationCode(code) {
       try {
-        return await this.ctx.model.AuthorizationCode.delAuthorizationCode;
+        return await this.ctx.service.authorizationCode.delAuthorizationCode;
       } catch (err) {
         return false;
       }
@@ -130,13 +127,11 @@ module.exports = app => {
 
     async getRefreshToken(refreshToken) {
       try {
-        const refToken = await this.ctx.model.RefreshToken.queryRefreshToken(
+        const refToken = await this.ctx.service.refreshToken.queryRefreshToken(
           refreshToken
         );
         if (!refToken) return;
-        const user = await this.ctx.model.User.queryUser({
-          id: refToken.userId,
-        });
+          const user = await this.ctx.service.user.profile(refToken.userId);
         if (!user) return;
         return {
           refreshToken: refToken.refreshToken,
