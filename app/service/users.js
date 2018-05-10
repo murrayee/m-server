@@ -10,7 +10,6 @@ class UsersService extends Service {
     return result;
   }
   async authorize(params) {
-    console.log(params,'=========')
     const result = await this.ctx.model.Users.find({
       username: params.username,
       password: params.password,

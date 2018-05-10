@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <script type="text/javascript" src="riny.scroll.js"></script>
+    <title>demo</title>
+    <style>
+        body,
+        div,
+        p {
+            margin: 0;
+            padding: 0;
+        }
+
+        .fixed {
+            height: 50px;
+            position: absolute;
+            left: 0;
+            right: 0;
+            background-color: red;
+        }
+
+        .header {
+            top: 0;
+        }
+
+        .footer {
+            bottom: 0;
+        }
+
+        .box {
+            background-color: #ccc;
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch;
+            position: absolute;
+            left: 0;
+            top: 50px;
+            right: 0;
+            bottom: 50px;
+        }
+
+        .box p {
+            height: 400px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header fixed"></div>
+    <div class="box" id="box">
+        <p>
+            <input type="text" placeholder="请输入内容">
+        </p>
+        <p>1</p>
+        <p>2</p>
+        <p>
+            <input type="text" placeholder="请输入内容">
+        </p>
+        <p>
+            <input type="text" placeholder="请输入内容">
+        </p>
+    </div>
+    <div class="footer fixed">
+        <input type="text" placeholder="请输入内容">
+    </div>
+    <script>
+        window.onload = function () {
+
+            var myScroll = new rinyScroll({
+                el: 'box'
+            });
+
+            myScroll.scroll();
+            myScroll.input();
+
+        };
+    </script>
+</body>
+
+</html>

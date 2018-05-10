@@ -7,7 +7,7 @@ module.exports = app => {
     const mongoose = app.mongoose;
     const RefreshToken = new mongoose.Schema({
         refreshToken: {type: String},
-        refreshTokenExpires: {type: Number},
+        accessTokenExpiresAt: {type: Date},
         scope: {type: String},
         clientId: {type: String},
         userId: {type: String},

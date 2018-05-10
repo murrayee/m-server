@@ -7,7 +7,7 @@ module.exports = app => {
     const mongoose = app.mongoose;
     const AuthorizationCode = new mongoose.Schema({
         code: {type: String},
-        accessTokenExpires: {type: Number},
+        accessTokenExpiresAt: {type: Date},
         redirectUri: {type: String},
         scope: {type: String},
         clientId: {type: String},

@@ -1,4 +1,11 @@
 'use strict';
+/***
+ * oauth2 授权认证配置
+ * @param app
+ * @returns {Model}
+ * password 模式实现(getClient --> grantTypeAllowed --> getUser --> saveAccessToken)
+ *
+ */
 
 module.exports = app => {
   class Model {
@@ -6,6 +13,7 @@ module.exports = app => {
       this.ctx = ctx;
     }
     async getClient(clientId, clientSecret) {
+      console.log(clientId, clientSecret)
       try {
         console.log('getClient invoked.......');
         const client = await this.ctx.service.client.getClient(
@@ -26,7 +34,10 @@ module.exports = app => {
     async getUser(username, password) {
       try {
         console.log('getUser invoked.......');
-        const user = await this.ctx.service.users.authorize({username, password});
+        const user = await this.ctx.service.users.authorize({
+          username,
+          password
+        });
         return user;
       } catch (err) {
         return false;
@@ -38,9 +49,11 @@ module.exports = app => {
           bearerToken
         );
         if (!token) return;
+        // console.log(token)
+        //   token.accessTokenExpiresAt = token.expires;
         return {
           accessToken: token.accessToken,
-          accessTokenExpiresAt: token.accessTokenExpiresAt,
+          accessTokenExpiresAt: new Date(token.accessTokenExpiresAt),
           scope: token.scope,
           client: {
             id: token.clientId,
@@ -54,15 +67,18 @@ module.exports = app => {
       }
     }
     async saveToken(token, client, user) {
+      // console.log(token);
       try {
         await this.ctx.service.accessToken.saveAccessToken(token, client, user);
         await this.ctx.service.refreshToken.saveRefreshToken(token, client, user);
         return {
           accessToken: token.accessToken,
-          accessTokenExpiresAt: token.accessTokenExpiresAt,
+          accessTokenExpiresAt: new Date(token.accessTokenExpiresAt),
           refreshToken: token.refreshToken,
-          refreshTokenExpiresAt: token.refreshTokenExpiresAt,
-          client: { id: client.id },
+          refreshTokenExpiresAt: new Date(token.refreshTokenExpiresAt),
+          client: {
+            id: client.id
+          },
           user,
         };
       } catch (err) {
@@ -79,11 +95,9 @@ module.exports = app => {
     async getAuthorizationCode(authorizationCode) {
       try {
         console.log('authorizationCode: ', authorizationCode);
-        const authCode = await this.ctx.service.authorizationCode.queryAuthorizationCode(
-          {
-            code: authorizationCode,
-          }
-        );
+        const authCode = await this.ctx.service.authorizationCode.queryAuthorizationCode({
+          code: authorizationCode,
+        });
         if (!authCode) return;
         const user = await this.ctx.service.user.profile(authCode.userId);
         if (!user) return;
@@ -92,7 +106,9 @@ module.exports = app => {
           expiresAt: authCode.expiresAt,
           redirectUri: authCode.redirectUri,
           scope: authCode.scope,
-          client: { id: authCode.clientId },
+          client: {
+            id: authCode.clientId
+          },
           user,
         };
       } catch (err) {
@@ -111,8 +127,12 @@ module.exports = app => {
           expiresAt: code.expiresAt,
           redirectUri: code.redirectUri,
           scope: code.scope,
-          client: { id: client.id },
-          user: { id: user.id },
+          client: {
+            id: client.id
+          },
+          user: {
+            id: user.id
+          },
         };
       } catch (err) {
         return false;
@@ -132,13 +152,15 @@ module.exports = app => {
           refreshToken
         );
         if (!refToken) return;
-          const user = await this.ctx.service.user.profile(refToken.userId);
+        const user = await this.ctx.service.user.profile(refToken.userId);
         if (!user) return;
         return {
           refreshToken: refToken.refreshToken,
           refreshTokenExpiresAt: refToken.refreshTokenExpiresAt,
           scope: refToken.scope,
-          client: { id: refToken.clientId }, // with 'id' property
+          client: {
+            id: refToken.clientId
+          }, // with 'id' property
           user,
         };
       } catch (err) {
