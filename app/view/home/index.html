@@ -1,174 +1,105 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>node-server</title>
     <style>
-        body {
-            padding: 50px;
-        }
-
-        div {
-            position: absolute;
-            width: 200px;
-            /* height: 60px; */
-            /* line-height: 60px; */
-            font-size: 32px;
-            cursor: pointer;
-            color: #333;
-            text-align: center;
-            transition: color .5s;
-            margin: 20px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%)
-        }
-
-        .d1::before {
-            content: "";
-            position: absolute;
-            left: 0%;
-            bottom: 0;
-            width: 200px;
-            transform: scaleX(0);
-            height: 2px;
-            background: deeppink;
-            z-index: -1;
-            transition: all .5s;
-        }
-
-        .d1:hover::before {
-            transform: scaleX(1);
-        }
-
-        .d2::before {
-            content: "";
-            position: absolute;
-            left: 0%;
-            bottom: 0;
-            width: 200px;
-            transform: scaleX(0);
-            height: 2px;
-            background: deeppink;
-            z-index: -1;
-            transition: transform .5s;
-            transform-origin: 100% 0;
-        }
-
-        .d2:hover::before {
-            transform: scaleX(1);
-            transform-origin: 0 0;
-        }
-    </style>
-</head>
-
-<body>
-<input type="text" style="width: 500px"/>
-    <div class="m">
-        <p class='d1'> Hello 盆友~</p>
-        <p class='d2'>欢迎使用！</p>
-    </div>
-</body>
-
-<script>
-
-    console.log(window.keyboard.height)
-    // 通过键盘弹起事件获取
-    window.on('keyboardup', function (e) {
-        console.log(e.height)
-        alert(e.height)
-    })
-    // 键盘收起事件
-    window.on('keyboarddown', function (e) {
-        console.log(e.height) // 0
-        alert(e.height)
-    })
-    const nums = [2, 7, 11, 15],
-        target = 9;
-    let h = {};
-    let a = nums.reduce((acc, n, i) => {
-        h[n] = i;
-        if (h[target - n] != undefined && h[target - n] != i) {
-            return [h[target - n], i];
-        }
-        console.log(n, i)
-        return acc;
-    }, []);
-    console.log(a)
-</script>
-
-</html> -->
-
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-    <style>
-        /*按钮样式*/
-        #btn{
-            width: 200px;
-            height: 35px;
-            line-height: 35px;
-            background-color: #00BB9E;
-            color: white;
-            outline: none;
-            box-shadow: none;
-            border: none;
-            overflow: hidden;
+        .mui-switch {
+            width: 52px;
+            height: 31px;
             position: relative;
+            border: 1px solid #dfdfdf;
+            background-color: #fdfdfd;
+            box-shadow: #dfdfdf 0 0 0 0 inset;
+            border-radius: 20px;
+            background-clip: content-box;
+            display: inline-block;
+            -webkit-appearance: none;
+            user-select: none;
+            outline: none;
         }
-        /*波浪样式*/
-        #span{
+
+
+
+        .mui-switch:before {
+            content: '';
+            width: 29px;
+            height: 29px;
             position: absolute;
-            width: 10px;
-            height: 10px;
-            transition: all 0.6s ease-in;
-            background-color: white;
-            opacity: .2;
-            border-radius: 35px;
+            top: 0;
+            left: 0;
+            border-radius: 20px;
+            background-color: #fff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+        }
+
+        .mui-switch:checked {
+            border-color: #64bd63;
+            box-shadow: #64bd63 0 0 0 16px inset;
+            background-color: #64bd63;
+        }
+
+        .mui-switch:checked:before {
+            left: 21px;
+        }
+
+
+        .mui-switch.mui-switch-animbg {
+            transition: background-color ease 0.4s;
+        }
+
+        .mui-switch.mui-switch-animbg:before {
+            transition: left 0.3s;
+        }
+
+        .mui-switch.mui-switch-animbg:checked {
+            box-shadow: #dfdfdf 0 0 0 0 inset;
+            background-color: #64bd63;
+            transition: border-color 0.4s, background-color ease 0.4s;
+        }
+
+        .mui-switch.mui-switch-animbg:checked:before {
+            transition: left 0.3s;
+        }
+
+        .mui-switch.mui-switch-anim {
+            transition: border cubic-bezier(0, 0, 0, 1) 0.4s, box-shadow cubic-bezier(0, 0, 0, 1) 0.4s;
+        }
+
+        .mui-switch.mui-switch-anim:before {
+            transition: left 0.3s;
+        }
+
+        .mui-switch.mui-switch-anim:checked {
+            box-shadow: #64bd63 0 0 0 16px inset;
+            background-color: #64bd63;
+            transition: border ease 0.4s, box-shadow ease 0.4s, background-color ease 1.2s;
+        }
+
+        .mui-switch.mui-switch-anim:checked:before {
+            transition: left 0.3s;
         }
     </style>
 </head>
+
 <body>
-<button id="btn">确定 </button>
-<script>
-    //可以执行一次点击效果
-    var oneClick = true;
-    document.getElementById("btn").addEventListener('click',function(e){
-        //判断是否可以执行一次点击效果
-        // --因为执行波浪效果需要时间，一次波浪结束之后允许执行下一次点击
-        if (oneClick){
-            this.innerHTML += "<span id='span'></span>";
-            //获取点击时的坐标
-            var event = e || window.event;
-            var x = event.clientX;
-            var y = event.clientY;
-            //获取按钮的坐标
-            var moveX = document.getElementById("btn").offsetLeft;
-            var moveY = document.getElementById("btn").offsetTop;
-            //获取按钮宽度
-            var btnWidth = document.getElementById("btn").clientWidth;
-            //设置点击后波浪样式
-            document.getElementById("span").style.borderRadius = 0;
-            document.getElementById("span").style.width = parseInt(btnWidth)*2+'px';
-            document.getElementById("span").style.left = x-moveX-5+'px';
-            document.getElementById("span").style.marginLeft = -btnWidth+'px';
-            document.getElementById("span").style.height = parseInt(btnWidth)*2+'px';
-            document.getElementById("span").style.top = y-moveY-5+'px';
-            document.getElementById("span").style.marginTop = -btnWidth+'px';
-            //定时删除波浪
-            setTimeout(function(){
-                document.getElementById("span").remove();
-                oneClick = true;
-            },600);
-            //不可以执行一次点击效果
-            oneClick = false;
-        }else {
-            return false;
-        }
-    })
-</script>
+    <label>
+        <input class="mui-switch" type="checkbox"> 默认未选中</label>
+    <label>
+        <input class="mui-switch" type="checkbox" checked> 默认选中</label>
+
+    <label>
+        <input class="mui-switch mui-switch-animbg" type="checkbox"> 默认未选中,简单的背景过渡效果,加mui-switch-animbg类即可</label>
+
+    <label>
+        <input class="mui-switch mui-switch-animbg" type="checkbox" checked> 默认选中</label>
+
+    <label>
+        <input class="mui-switch mui-switch-anim" type="checkbox"> 默认未选中，过渡效果，加 mui-switch-anim 类即可
+    </label>
+    <label>
+        <input class="mui-switch mui-switch-anim" type="checkbox" checked> 默认选中</label>
 </body>
+
 </html>

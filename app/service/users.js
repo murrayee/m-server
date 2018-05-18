@@ -45,7 +45,9 @@ class UsersService extends Service {
 
   async modify(params) {
     const { userId, field, value } = params;
+    console.log( userId, field, value);
     if (!~[ 'name', 'socketId', 'vibration' ].indexOf(field)) {
+      return null
     }
     if (field === 'name') {
       return await this.ctx.model.Users.update(

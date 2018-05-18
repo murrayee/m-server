@@ -79,7 +79,7 @@ module.exports = app => {
           client: {
             id: client.id
           },
-          user,
+          user:user[0],
         };
       } catch (err) {
         return false;
