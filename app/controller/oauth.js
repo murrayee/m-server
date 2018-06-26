@@ -9,13 +9,13 @@ class OAuth2Controller extends Controller {
         await this.ctx.render('home/index.html', {query: query})
     }
 
-    // 认证过的请求
+    // 认证过的请求 处理授权逻等~
     async authenticate() {
+        // const accessToken=this.ctx.request.header['authorization'].replace('Bearer ','');
         this.ctx.body = {
-            msg: 'successed!'
+            msg: 'ok!'
         }
     }
-
     // 返回token
     async token(){
         this.ctx.body = this.ctx.state.oauth.token

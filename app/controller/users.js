@@ -128,6 +128,14 @@ class UserController extends Controller {
         this.ctx.body = response;
         this.status = 200;
     }
+    async logout(){
+        const accessToken=this.ctx.request.header['authorization'].replace('Bearer ','');
+
+      const result=await  this.ctx.service.refreshToken.delRefreshToken(accessToken);
+
+        this.ctx.body=result
+
+    }
 }
 
 module.exports = UserController;
