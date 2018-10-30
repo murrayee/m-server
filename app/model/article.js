@@ -18,5 +18,5 @@ module.exports = app => {
     read_count: { type: Number },
   });
 
-  return mongoose.model('acticle', articleSchema, 'acticle');
+  return mongoose.model('article', articleSchema, 'article');
 };

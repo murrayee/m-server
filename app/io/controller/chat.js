@@ -4,7 +4,7 @@
 module.exports = app => {
     class chatController extends app.Controller {
         async index() {
-            this.ctx.socket.emit('res', 'asdasd');
+            this.ctx.socket.emit('res', 'test');
         }
         async message() {
             const params = this.ctx.args[0]

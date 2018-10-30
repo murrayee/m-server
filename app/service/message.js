@@ -9,23 +9,21 @@ module.exports = app => {
       const result = article;
       return result;
     }
-    async sendPeerMessage(parmas) {
-      const user = await this.service.users.profile(parmas[0].to);
-      // 补充消息内容
-      parmas = parmas.map(payload => {
-        payload.uuid = payload.uuid || uuid.v4();
-        payload.ext.timestamp = +new Date();
-        return payload;
-      });
-      if (user[0].onlineStatus === 'online' && user[0].socketId) {
-        console.log('发送在线消息！' + user[0].socketId);
-        this.ctx.socket.to(user[0].socketId).emit('message', parmas);
+
+    async sendPeerMessage(params) {
+      const to = await this.service.users.profile(params.to._id);
+      params.uuid = params.uuid || uuid.v4();
+      params.ext = {
+        timestamp: +new Date(),
+      };
+      const user = to[0];
+      if (user.onlineStatus === 'online' && user.socketId) {
+        console.log('发送在线消息！' + user.socketId);
+        this.ctx.socket.to(user.socketId).emit('message', params);
       } else {
-        console.log('发送离线消息！' + user[0].socketId);
-        const serialParmas = parmas.map(i => {
-          return JSON.stringify(i);
-        });
-        app.redis.rpush(`offline:queue:userId:${user[0]._id}`, ...serialParmas);
+        console.log('发送离线消息！' + user.socketId);
+        const serialParams = [params].map(i => JSON.stringify(i));
+        app.redis.rpush(`offline:queue:userId:${user._id}`, ...serialParams);
       }
     }
   }

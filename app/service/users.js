@@ -9,7 +9,9 @@ class UsersService extends Service {
     const result = await this.ctx.model.Users.find({}).sort({ firstLetter: 1 });
     return result;
   }
+
   async authorize(params) {
+
     const result = await this.ctx.model.Users.find({
       username: params.username,
       password: params.password,
@@ -31,7 +33,7 @@ class UsersService extends Service {
     await this.ctx.helper.getAvatar(
       baseDir,
       avatarFileName,
-      params.username.substring(0, 2)
+      params.username.substring(0, 2),
     );
 
     const result = await this.ctx.model.Users.create({
@@ -45,9 +47,9 @@ class UsersService extends Service {
 
   async modify(params) {
     const { userId, field, value } = params;
-    console.log( userId, field, value);
-    if (!~[ 'name', 'socketId', 'vibration' ].indexOf(field)) {
-      return null
+    console.log(userId, field, value);
+    if (!~['name', 'socketId', 'vibration'].indexOf(field)) {
+      return null;
     }
     if (field === 'name') {
       return await this.ctx.model.Users.update(
@@ -57,19 +59,19 @@ class UsersService extends Service {
             [field]: value,
             firstLetter: this.getNameFirstLetter(value) || '',
           },
-        }
+        },
       );
     }
     if (field === 'socketId') {
       return await this.ctx.model.Users.update(
         { _id: userId },
-        { $set: { [field]: value, onlineStatus: 'online' } }
+        { $set: { [field]: value, onlineStatus: 'online' } },
       );
     }
     if (field === 'vibration') {
       return await this.ctx.model.Users.update(
         { _id: userId },
-        { $set: { [field]: value } }
+        { $set: { [field]: value } },
       );
     }
   }
