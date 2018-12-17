@@ -13,9 +13,6 @@ module.exports = app => {
     async sendPeerMessage(params) {
       const to = await this.service.users.profile(params.to._id);
       params.uuid = params.uuid || uuid.v4();
-      params.ext = {
-        timestamp: +new Date(),
-      };
       const user = to[0];
       if (user.onlineStatus === 'online' && user.socketId) {
         console.log('发送在线消息！' + user.socketId);

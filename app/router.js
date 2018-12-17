@@ -23,5 +23,7 @@ module.exports = app => {
   app.put(`/api/users/:userId/:field`, app.oAuth2Server.authenticate(), app.controller.users.modify);
   app.router.resources('topics', '/api/topics', app.oAuth2Server.authenticate(), app.controller.topics);
 
+  // spider api
+  // app.get('/api/douyin/feed', app.constructor.douyin.index);
 
 };

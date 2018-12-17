@@ -80,7 +80,6 @@ class UserController extends Controller {
 
   async modify() {
     let params = this.ctx.request.body;
-
     let result = await this.service.users.modify(params);
     let response = {
       success: false,
