@@ -24,6 +24,6 @@ module.exports = app => {
   app.router.resources('topics', '/api/topics', app.oAuth2Server.authenticate(), app.controller.topics);
 
   // spider api
-  // app.get('/api/douyin/feed', app.constructor.douyin.index);
+  app.get('/api/spider/dy/feed', app.controller.spider.index);
 
 };

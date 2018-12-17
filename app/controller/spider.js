@@ -5,7 +5,7 @@
 const Controller = require('egg').Controller;
 class DouyinController extends Controller {
   async index() {
-    const result = await this.service.douyin.index();
+    const result = await this.service.spider.index();
     this.ctx.body = result;
     this.status = 200;
   }
