@@ -11,7 +11,7 @@ class DouyinService extends Service {
     super(app);
     this.request = axios.create({
       baseURL: 'https://api.appsign.vip:2688',
-      timeout: 5000,
+      timeout: 10000,
       headers: {
         'User-Agent': 'Aweme/2.8.0 (iPhone; iOS 11.0; Scale/2.00)',
       },

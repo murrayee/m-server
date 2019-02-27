@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>node-server</title>
+    <meta name=viewport content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
     <style>
         .mui-switch {
             width: 52px;
@@ -84,39 +85,49 @@
 </head>
 
 <body>
-    <label>
-        <input class="mui-switch" type="checkbox"> 默认未选中</label>
-    <label>
-        <input class="mui-switch" type="checkbox" checked> 默认选中</label>
+    <!--<label>-->
+        <!--<input class="mui-switch" type="checkbox"> 默认未选中</label>-->
+    <!--<label>-->
+        <!--<input class="mui-switch" type="checkbox" checked> 默认选中</label>-->
 
-    <label>
-        <input class="mui-switch mui-switch-animbg" type="checkbox"> 默认未选中,简单的背景过渡效果,加mui-switch-animbg类即可</label>
+    <!--<label>-->
+        <!--<input class="mui-switch mui-switch-animbg" type="checkbox"> 默认未选中,简单的背景过渡效果,加mui-switch-animbg类即可</label>-->
 
-    <label>
-        <input class="mui-switch mui-switch-animbg" type="checkbox" checked> 默认选中</label>
+    <!--<label>-->
+        <!--<input class="mui-switch mui-switch-animbg" type="checkbox" checked> 默认选中</label>-->
 
-    <label>
-        <input class="mui-switch mui-switch-anim" type="checkbox"> 默认未选中，过渡效果，加 mui-switch-anim 类即可
-    </label>
-    <label>
-        <input class="mui-switch mui-switch-anim" type="checkbox" checked> 默认选中</label>
+    <!--<label>-->
+        <!--<input class="mui-switch mui-switch-anim" type="checkbox"> 默认未选中，过渡效果，加 mui-switch-anim 类即可-->
+    <!--</label>-->
+    <!--<label>-->
+        <!--<input class="mui-switch mui-switch-anim" type="checkbox" checked> 默认选中</label>-->
 
-    <div id="app">
-        <form>
-            <input type="text" v-model="number">
-            <button type="button" v-click="increment">增加</button>
-        </form>
-        <h3 v-bind="number"></h3>
-        <form>
-            <input type="text" v-model="count">
-            <button type="button" v-click="incre">增加</button>
-        </form>
-        <h3 v-bind="count"></h3>
-    </div>
+    <!--<div id="app">-->
+        <!--<form>-->
+            <!--<input type="text" v-model="number">-->
+            <!--<button type="button" v-click="increment">增加</button>-->
+        <!--</form>-->
+        <!--<h3 v-bind="number"></h3>-->
+        <!--<form>-->
+            <!--<input type="text" v-model="count">-->
+            <!--<button type="button" v-click="incre">增加</button>-->
+        <!--</form>-->
+        <!--<h3 v-bind="count"></h3>-->
+    <!--</div>-->
 </body>
+<div id="a" onclick="test()">1231</div>
 
 </html>
 <script>
+  function test(){
+    alert('div click');
+    document.addEventListener('click',function() {
+      alert('doc click')
+    })
+  }
+
+
+
   function myVue(options) {
     this._init(options);
   }
