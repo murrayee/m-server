@@ -1,12 +1,14 @@
 const gm = require('gm').subClass({imageMagick: true});
 module.exports = {
     getAvatar(baseDir, fileName, text) {
+        console.log(baseDir, fileName, text);
         return new Promise((resolve, reject) => {
             gm(100, 100, this.getColor())
                 .fontSize(20)
                 .fill("#fff")
                 .drawText(0, 0, text, 'Center')
                 .write(`${baseDir}/app/public/avatar/${fileName}.png`, function (err) {
+                    console.log(err);
                     resolve(err)
                 })
         })
