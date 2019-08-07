@@ -1,56 +1,57 @@
-'use strict';
+"use strict";
 module.exports = {
-  keys: 'murray',
+  keys: "murray",
   security: {
-    csrf: false,
+    csrf: false
   },
-  middleware: [ 'errorHandler', 'uppercase' ],
+  middleware: ["errorHandler", "uppercase"],
   errorHandler: {
-    match: '/api',
+    match: "/api"
   },
   cors: {
-    origin: '*',
-    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
+    origin: "*",
+    allowMethods: "GET,HEAD,PUT,POST,DELETE,PATCH"
   },
   view: {
-    defaultViewEngine: 'nunjucks',
+    defaultViewEngine: "nunjucks",
     mapping: {
-      '.html': 'nunjucks',
-    },
+      ".html": "nunjucks"
+    }
   },
   mongoose: {
-    url: 'mongodb://127.0.0.1/murray',
+    url: `mongodb://${process.env.MONGO_PORT_27017_TCP_ADDR ||
+      "127.0.0.1"}/murray`,
     options: {
       server: {
         auto_reconnect: true,
-        poolSize: 10,
-      },
-    },
+        poolSize: 10
+      }
+    }
   },
   io: {
     init: {},
     namespace: {
-      '/': {
-        connectionMiddleware: [ 'auth' ],
-        packetMiddleware: [ 'filter' ],
-      },
-    },
+      "/": {
+        connectionMiddleware: ["auth"],
+        packetMiddleware: ["filter"]
+      }
+    }
   },
   redis: {
     client: {
-      port: 6379,
-      host: '127.0.0.1',
+      port: process.env.REDIS_PORT_6379_TCP_PORT || 6379,
+      host: process.env.REDIS_PORT_6379_TCP_ADDR || "127.0.0.1",
       password: null,
-      db: 0,
-    },
+      db: 0
+    }
   },
   oAuth2Server: {
     debug: true,
     grants: [
-      'password',
-      'authorization_code',
-      'refresh_token',
-      'client_credentials',
-    ],
-  },
+      "password",
+      "authorization_code",
+      "refresh_token",
+      "client_credentials"
+    ]
+  }
 };
