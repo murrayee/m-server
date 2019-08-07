@@ -1,5 +1,5 @@
 "use strict";
-
+console.log(process.env);
 module.exports = app => {
   // init
   app.get("/", app.controller.home.index);
