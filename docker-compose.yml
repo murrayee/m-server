@@ -1,0 +1,26 @@
+mongo:
+  image: mongo:4
+  container_name: mongo_compose
+  restart: always
+  ports:
+    - 27017:27017
+  # 对应目录 leanote 备份路径
+  volumes:
+    - ./leanote/mongodb_backup:/leanote/mongodb_backup
+leanote:
+  image: liwenguang/leanote:2.6.1
+  container_name: leanote_app_compose
+  restart: always
+  # 发布端口，但是不映射到主机
+  ports:
+    - 9000
+  volumes:
+    - ./leanote/data_upload:/usr/local/leanote/public/upload
+  links:
+    - mongo
+  # 配置信息
+  environment:
+    - SITE_URL=www.liwenguang.com
+    # 使用登录账号密码需要在 mongo 中的 leanote 创建
+    # - DB_USERNAME=root
+    # - DB_PASSWORD=mongopwd
