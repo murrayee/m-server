@@ -2,21 +2,21 @@ pipeline {
     agent {
         docker {
             image 'node:latest' 
-            args '-p 9090:9090 --name node-web --link redis:redis --link mongo:mongo' 
+            args '-p 9090:9090 --name node-web --link redis --link mongo' 
         }
     }
     environment {
         CI = 'true'
     }
     stages {
-        stage('Install') { 
+        stage('Build') { 
             steps {
-                sh 'npm install' 
+                sh 'docker stop m-server || true  &&  docker rm m-server || true && docker build --rm --no-cache=true  -t node  - < Dockerfile' 
             }
         }
-        stage('Deploy') { 
+        stage('deploy') { 
             steps {
-                sh 'npm start' 
+                sh 'docker run -d --privileged=true --name  m-server -p 9090:9090 ' 
             }
         }
     }
