@@ -1,26 +1,22 @@
-mongo:
-  image: mongo:4
-  container_name: mongo_compose
-  restart: always
-  ports:
-    - 27017:27017
-  # 对应目录 leanote 备份路径
-  volumes:
-    - ./leanote/mongodb_backup:/leanote/mongodb_backup
-leanote:
-  image: liwenguang/leanote:2.6.1
-  container_name: leanote_app_compose
-  restart: always
-  # 发布端口，但是不映射到主机
-  ports:
-    - 9000
-  volumes:
-    - ./leanote/data_upload:/usr/local/leanote/public/upload
-  links:
-    - mongo
-  # 配置信息
-  environment:
-    - SITE_URL=www.liwenguang.com
-    # 使用登录账号密码需要在 mongo 中的 leanote 创建
-    # - DB_USERNAME=root
-    # - DB_PASSWORD=mongopwd
+version: "2"
+services:
+  # 服务名称
+  nginx:
+    # 镜像:版本
+    image: nginx:latest
+    # 映射容器80端口到本地80端口
+    ports:
+      - "8002:8001"
+      - "8005:8005"
+    # 数据卷 映射本地文件到容器
+    volumes:
+      # 映射nginx.conf文件到容器的/etc/nginx/conf.d目录并覆盖default.conf文件
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      # 映射build文件夹到容器的/usr/share/nginx/html文件夹
+      - ./build:/usr/share/nginx/html
+    # 覆盖容器启动后默认执行的命令。
+    command: /bin/bash -c "nginx -g 'daemon off;'"
+    depends_on:
+      - node
+    links:
+      - node
