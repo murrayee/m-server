@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "start": "egg-scripts start --daemon --port 9090",
+    "docker": "egg-scripts start --port 9090",
     "stop": "egg-scripts stop",
     "dev": "egg-bin dev --port 9090",
     "debug": "egg-bin debug",

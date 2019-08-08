@@ -1,22 +1,63 @@
-version: "2"
+version: "3"
 services:
-  # 服务名称
-  nginx:
-    # 镜像:版本
-    image: nginx:latest
-    # 映射容器80端口到本地80端口
-    ports:
-      - "8002:8001"
-      - "8005:8005"
-    # 数据卷 映射本地文件到容器
-    volumes:
-      # 映射nginx.conf文件到容器的/etc/nginx/conf.d目录并覆盖default.conf文件
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
-      # 映射build文件夹到容器的/usr/share/nginx/html文件夹
-      - ./build:/usr/share/nginx/html
-    # 覆盖容器启动后默认执行的命令。
-    command: /bin/bash -c "nginx -g 'daemon off;'"
+  cnode:
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    #   args:
+    #     - env=value
+    image: m-server:latest
+    environment:
+      - NODE_ENV=production
+      - EGG_SERVER_ENV=prod
+      - EGG_REDIS_DB=0
+      - EGG_REDIS_HOST=redis
+      - EGG_REDIS_PORT=6379
+      - EGG_REDIS_PASSWORD=egg_cnode
+      - EGG_MONGODB_URL=mongodb://egg_cnode:egg_cnode@mongodb:27017/egg_cnode
+      - EGG_MINI_ASSETS=true
+      - EGG_PASSPORT_GITHUB_CLIENT_ID=test
+      - EGG_PASSPORT_GITHUB_CLIENT_SECRET=test
+      # - EGG_SITE_STATIC_HOST=${EGG_SITE_STATIC_HOST}
+      - EGG_ALINODE_APPID=appid
+      - EGG_ALINODE_SECRET=secret
     depends_on:
-      - node
-    links:
-      - node
+      - redis
+      - mongodb
+    networks:
+      - docker_cnode
+    ports:
+      - 7001:7001
+
+  redis:
+    image: redis:3.2-alpine
+    command: redis-server --appendonly yes --requirepass egg_cnode
+    volumes:
+      - egg-redis:/data
+    networks:
+      - docker_cnode
+    # ports:
+    #   - 6379:6379
+
+  mongodb:
+    image: mongo:3.2
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=mongodb
+      - MONGO_INITDB_DATABASE=egg_cnode
+    volumes:
+      - egg-mongo:/data/db
+      - ./init.d/mongo:/docker-entrypoint-initdb.d
+    networks:
+      - docker_cnode
+    # ports:
+    #   - 27017:27017
+
+volumes:
+  egg-mongo:
+  egg-redis:
+
+networks:
+  docker_cnode:
+    driver: bridge
